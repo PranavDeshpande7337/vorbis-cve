@@ -5,3 +5,5 @@ repro_fixed
 crashes/*
 !crashes/.gitkeep
 corpus/
+corpus/*
+!corpus/seed.ogg
