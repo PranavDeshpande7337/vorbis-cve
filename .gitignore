@@ -1,0 +1,6 @@
+stb/
+fuzz_vuln
+repro_vuln
+repro_fixed
+crashes/*
+!crashes/.gitkeep
