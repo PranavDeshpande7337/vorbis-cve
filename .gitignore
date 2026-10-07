@@ -4,3 +4,4 @@ repro_vuln
 repro_fixed
 crashes/*
 !crashes/.gitkeep
+corpus/
