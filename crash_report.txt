@@ -1,0 +1,54 @@
+vuln_stb_vorbis.c:1058:7: runtime error: index 32 out of bounds for type 'uint32[32]' (aka 'unsigned int[32]')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior vuln_stb_vorbis.c:1058:7 
+=================================================================
+==254==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7fd3e59011a0 at pc 0x56238bd7aa16 bp 0x7fff26d226b0 sp 0x7fff26d226a8
+WRITE of size 4 at 0x7fd3e59011a0 thread T0
+    #0 0x56238bd7aa15 in compute_codewords /home/claude/vorbis-cve-mini/./vuln_stb_vorbis.c:1058:20
+    #1 0x56238bd23bd2 in start_decoder /home/claude/vorbis-cve-mini/./vuln_stb_vorbis.c:3764:12
+    #2 0x56238bd3659b in stb_vorbis_open_memory /home/claude/vorbis-cve-mini/./vuln_stb_vorbis.c:5018:8
+    #3 0x56238bd3cbd6 in decode /home/claude/vorbis-cve-mini/harness/target.h:11:19
+    #4 0x56238bd3cbd6 in main /home/claude/vorbis-cve-mini/harness/repro.c:12:3
+    #5 0x7fd3e762a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #6 0x7fd3e762a28a in __libc_start_main csu/../csu/libc-start.c:360:3
+    #7 0x56238bc3c3e4 in _start (/home/claude/vorbis-cve-mini/repro_vuln+0x593e4) (BuildId: fb52ac5d1e5e4586e9d07554735b932f84f0d356)
+
+Address 0x7fd3e59011a0 is located in stack of thread T0 at offset 160 in frame
+    #0 0x56238bd79ba7 in compute_codewords /home/claude/vorbis-cve-mini/./vuln_stb_vorbis.c:1046
+
+  This frame has 1 object(s):
+    [32, 160) 'available' (line 1048) <== Memory access at offset 160 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /home/claude/vorbis-cve-mini/./vuln_stb_vorbis.c:1058:20 in compute_codewords
+Shadow bytes around the buggy address:
+  0x7fd3e5900f00: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x7fd3e5900f80: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x7fd3e5901000: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x7fd3e5901080: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x7fd3e5901100: f1 f1 f1 f1 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x7fd3e5901180: 00 00 00 00[f3]f3 f3 f3 00 00 00 00 00 00 00 00
+  0x7fd3e5901200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fd3e5901280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fd3e5901300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fd3e5901380: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fd3e5901400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==254==ABORTING
